@@ -12,6 +12,42 @@ export const suiClient = new SuiClient({
 });
 
 /**
+ * Fetch ALL GBz NFTs in the collection (for bloodline analysis)
+ * Note: This may be slow for large collections
+ */
+export async function fetchAllNFTs(): Promise<GBzNFT[]> {
+  try {
+    // Query all NFTs of this type - limited to reasonable amount
+    const allObjects = await suiClient.queryEvents({
+      query: {
+        MoveEventType: `${CONTRACT_INFO.packageId}::ghetto_babyz::MintEvent`,
+      },
+      limit: 50, // Limit to prevent overwhelming queries
+      order: 'descending',
+    });
+
+    const nfts: GBzNFT[] = [];
+
+    // For each minted NFT event, fetch the actual NFT data
+    for (const event of allObjects.data) {
+      const eventData = event.parsedJson as any;
+      if (eventData?.nft_id) {
+        const nft = await fetchNFTById(eventData.nft_id);
+        if (nft) {
+          nfts.push(nft);
+        }
+      }
+    }
+
+    return nfts.sort((a, b) => a.tokenId - b.tokenId);
+  } catch (error) {
+    console.error('Error fetching all NFTs:', error);
+    // Return empty array on error
+    return [];
+  }
+}
+
+/**
  * Fetch all GBz NFTs owned by an address
  */
 export async function fetchUserNFTs(address: string): Promise<GBzNFT[]> {
@@ -179,4 +215,60 @@ export function formatTimestamp(timestamp: string): string {
  */
 export function shortenAddress(address: string): string {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+/**
+ * Calculate bloodline statistics for a wallet address
+ * Shows how much the user's "DNA" is spread across the collection
+ */
+export interface BloodlineStats {
+  totalStamps: number;
+  affectedNFTs: Array<{
+    nft: GBzNFT;
+    stampCount: number;
+    lastOwnedTimestamp: string;
+  }>;
+  collectionPercentage: number;
+  totalSalesVolume: string;
+}
+
+export function calculateBloodline(allNFTs: GBzNFT[], userAddress: string): BloodlineStats {
+  const affectedNFTs: BloodlineStats['affectedNFTs'] = [];
+  let totalStamps = 0;
+  let totalVolume = 0;
+
+  allNFTs.forEach((nft) => {
+    const userStamps = nft.provenance.filter((entry) =>
+      entry.owner.toLowerCase() === userAddress.toLowerCase()
+    );
+
+    if (userStamps.length > 0) {
+      totalStamps += userStamps.length;
+
+      // Sum up sales volume from this user's stamps
+      userStamps.forEach((stamp) => {
+        totalVolume += parseInt(stamp.sale_price);
+      });
+
+      affectedNFTs.push({
+        nft,
+        stampCount: userStamps.length,
+        lastOwnedTimestamp: userStamps[userStamps.length - 1].timestamp,
+      });
+    }
+  });
+
+  // Sort by stamp count (most stamps first)
+  affectedNFTs.sort((a, b) => b.stampCount - a.stampCount);
+
+  const collectionPercentage = allNFTs.length > 0
+    ? (affectedNFTs.length / allNFTs.length) * 100
+    : 0;
+
+  return {
+    totalStamps,
+    affectedNFTs,
+    collectionPercentage,
+    totalSalesVolume: totalVolume.toString(),
+  };
 }

@@ -4,8 +4,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getFullnodeUrl } from '@mysten/sui/client';
 import { NFTCard } from './components/NFTCard';
 import { NFTModal } from './components/NFTModal';
-import { fetchUserNFTs, fetchCollectionStats } from './utils/sui';
+import { BloodlineModal } from './components/BloodlineModal';
+import { fetchUserNFTs, fetchCollectionStats, fetchAllNFTs, calculateBloodline } from './utils/sui';
 import type { GBzNFT } from './types';
+import type { BloodlineStats } from './utils/sui';
 import './App.css';
 
 // Setup SUI client
@@ -22,6 +24,9 @@ function NFTViewer() {
   const [error, setError] = useState<string | null>(null);
   const [selectedNFT, setSelectedNFT] = useState<GBzNFT | null>(null);
   const [stats, setStats] = useState<any>(null);
+  const [showBloodline, setShowBloodline] = useState(false);
+  const [bloodlineStats, setBloodlineStats] = useState<BloodlineStats | null>(null);
+  const [bloodlineLoading, setBloodlineLoading] = useState(false);
 
   // Filter states
   const [selectedClass, setSelectedClass] = useState<number | 'all'>('all');
@@ -58,6 +63,20 @@ function NFTViewer() {
       setStats(collectionStats);
     } catch (err) {
       console.error('Failed to load stats:', err);
+    }
+  };
+
+  const loadBloodline = async (address: string) => {
+    setBloodlineLoading(true);
+    try {
+      const allNFTs = await fetchAllNFTs();
+      const bloodline = calculateBloodline(allNFTs, address);
+      setBloodlineStats(bloodline);
+      setShowBloodline(true);
+    } catch (err) {
+      console.error('Failed to load bloodline:', err);
+    } finally {
+      setBloodlineLoading(false);
     }
   };
 
@@ -171,7 +190,19 @@ function NFTViewer() {
               )}
             </div>
 
-            <ConnectButton className="!bg-gradient-to-r !from-red-600 !to-red-700 hover:!from-red-700 hover:!to-red-800 !border !border-red-500/50 !rounded-lg !font-bold !text-sm !px-6 !py-2.5 !shadow-lg !shadow-red-900/30 !transition-all" />
+            <div className="flex items-center gap-3">
+              {currentAccount && (
+                <button
+                  onClick={() => loadBloodline(currentAccount.address)}
+                  disabled={bloodlineLoading}
+                  className="bg-gradient-to-r from-red-800 to-red-900 hover:from-red-700 hover:to-red-800 border border-red-500/50 rounded-lg font-bold text-sm px-6 py-2.5 shadow-lg shadow-red-900/30 transition-all flex items-center gap-2 disabled:opacity-50"
+                >
+                  <span>🧬</span>
+                  {bloodlineLoading ? 'LOADING...' : 'MY BLOODLINE'}
+                </button>
+              )}
+              <ConnectButton className="!bg-gradient-to-r !from-red-600 !to-red-700 hover:!from-red-700 hover:!to-red-800 !border !border-red-500/50 !rounded-lg !font-bold !text-sm !px-6 !py-2.5 !shadow-lg !shadow-red-900/30 !transition-all" />
+            </div>
           </div>
         </div>
       </header>
@@ -353,6 +384,15 @@ function NFTViewer() {
         <NFTModal
           nft={selectedNFT}
           onClose={() => setSelectedNFT(null)}
+        />
+      )}
+
+      {/* Bloodline Modal */}
+      {showBloodline && bloodlineStats && currentAccount && (
+        <BloodlineModal
+          stats={bloodlineStats}
+          userAddress={currentAccount.address}
+          onClose={() => setShowBloodline(false)}
         />
       )}
     </div>
