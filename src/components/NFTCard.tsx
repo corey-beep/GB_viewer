@@ -16,11 +16,15 @@ export function NFTCard({ nft, onClick }: NFTCardProps) {
 
   return (
     <div
-      className="bg-gray-800 rounded overflow-hidden hover:shadow-xl transition-all cursor-pointer border border-gray-700 hover:border-purple-500"
+      className="bg-black rounded overflow-hidden hover:shadow-2xl transition-all cursor-pointer border-2 border-red-900 hover:border-red-600"
+      style={{
+        width: '250px',
+        boxShadow: '0 0 15px rgba(139, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.8)'
+      }}
       onClick={onClick}
     >
-      {/* Image - Small Thumbnail */}
-      <div className="relative w-full aspect-square bg-gray-900">
+      {/* Image - Thumbnail */}
+      <div className="relative w-full h-[250px] bg-gray-900">
         {!imageError ? (
           <img
             src={nft.imageUrl}
@@ -47,23 +51,23 @@ export function NFTCard({ nft, onClick }: NFTCardProps) {
         )}
       </div>
 
-      {/* Minimal Details */}
-      <div className="p-1.5">
+      {/* Details */}
+      <div className="p-2 bg-gradient-to-b from-black to-red-950">
         {/* Name */}
-        <div className="text-xs font-bold truncate mb-0.5">{nft.generatedName.full_name}</div>
+        <div className="text-sm font-bold truncate mb-1 text-red-100 uppercase tracking-wide">{nft.generatedName.full_name}</div>
 
         {/* Attribute */}
-        <div className={`${attributeColor} inline-block px-1.5 py-0.5 rounded text-[10px] font-bold mb-1`}>
+        <div className={`${attributeColor} inline-block px-2 py-1 rounded text-xs font-bold mb-2 border border-red-900 uppercase tracking-wider`}>
           {attributeName}
         </div>
 
         {/* Compact Stats */}
-        <div className="flex gap-1 text-[10px] mt-1">
-          <div className="bg-gray-700 rounded px-1 py-0.5 flex-1 text-center">
-            <span className="text-gray-400">Pts:</span> <span className="font-bold">{nft.attribute.points}/50</span>
+        <div className="flex gap-1 text-xs mt-1 font-mono">
+          <div className="bg-black border border-red-900 rounded px-1.5 py-1 flex-1 text-center">
+            <span className="text-red-500">PTS:</span> <span className="font-bold text-white">{nft.attribute.points}/50</span>
           </div>
-          <div className="bg-gray-700 rounded px-1 py-0.5 flex-1 text-center">
-            <span className="text-gray-400">Pass:</span> <span className="font-bold">{nft.provenance.length}/20</span>
+          <div className="bg-black border border-red-900 rounded px-1.5 py-1 flex-1 text-center">
+            <span className="text-red-500">PASS:</span> <span className="font-bold text-white">{nft.provenance.length}/20</span>
           </div>
         </div>
       </div>
