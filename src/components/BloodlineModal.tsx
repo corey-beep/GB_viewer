@@ -104,7 +104,7 @@ export function BloodlineModal({ stats, userAddress, onClose }: BloodlineModalPr
               </h3>
 
               <div className="space-y-3">
-                {stats.affectedNFTs.map((item, index) => (
+                {stats.affectedNFTs.map((item) => (
                   <div
                     key={item.nft.objectId}
                     className="bg-red-950/20 border-2 border-red-900/50 rounded-lg p-4 hover:border-red-800 transition-all"
