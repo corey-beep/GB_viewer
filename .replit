@@ -1,0 +1,11 @@
+run = "npm run dev -- --host"
+
+[nix]
+channel = "stable-23_11"
+
+[deployment]
+run = ["sh", "-c", "npm run dev -- --host"]
+
+[[ports]]
+localPort = 5173
+externalPort = 80

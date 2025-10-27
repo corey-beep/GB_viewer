@@ -32,6 +32,19 @@ npm run dev
 
 The app will be available at `http://localhost:5173`
 
+### Deploy on Replit
+
+[![Run on Replit](https://replit.com/badge/github/corey-beep/GB_viewer)](https://replit.com/github/corey-beep/GB_viewer)
+
+1. Click the "Run on Replit" badge above or import from GitHub
+2. Replit will automatically:
+   - Install dependencies
+   - Start the dev server
+   - Open the app in the Replit webview
+3. The app will be accessible via your Replit URL
+
+**Note:** The `.replit` configuration is already set up to run `npm run dev -- --host` automatically.
+
 ### Build for Production
 
 ```bash
