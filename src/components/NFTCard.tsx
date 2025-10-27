@@ -53,8 +53,18 @@ export function NFTCard({ nft, onClick }: NFTCardProps) {
         <div className="text-xs font-bold truncate mb-0.5">{nft.generatedName.full_name}</div>
 
         {/* Attribute */}
-        <div className={`${attributeColor} inline-block px-1.5 py-0.5 rounded text-[10px] font-bold`}>
+        <div className={`${attributeColor} inline-block px-1.5 py-0.5 rounded text-[10px] font-bold mb-1`}>
           {attributeName}
+        </div>
+
+        {/* Compact Stats */}
+        <div className="flex gap-1 text-[10px] mt-1">
+          <div className="bg-gray-700 rounded px-1 py-0.5 flex-1 text-center">
+            <span className="text-gray-400">Pts:</span> <span className="font-bold">{nft.attribute.points}/50</span>
+          </div>
+          <div className="bg-gray-700 rounded px-1 py-0.5 flex-1 text-center">
+            <span className="text-gray-400">Pass:</span> <span className="font-bold">{nft.provenance.length}/20</span>
+          </div>
         </div>
       </div>
     </div>
