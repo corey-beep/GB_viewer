@@ -4,7 +4,7 @@
 
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
 import { CONTRACT_INFO, NFT_TYPE } from '../config';
-import type { GBzNFT, NFTRawData, ProvenanceEntry } from '../types';
+import type { GBzNFT, ProvenanceEntry } from '../types';
 
 // Initialize SUI client for testnet
 export const suiClient = new SuiClient({

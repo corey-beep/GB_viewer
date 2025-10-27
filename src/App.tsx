@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { WalletProvider, ConnectButton, useCurrentAccount, SuiClientProvider } from '@mysten/dapp-kit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
+import { getFullnodeUrl } from '@mysten/sui/client';
 import { NFTCard } from './components/NFTCard';
 import { NFTModal } from './components/NFTModal';
 import { fetchUserNFTs, fetchCollectionStats } from './utils/sui';

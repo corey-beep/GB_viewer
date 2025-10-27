@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { GBzNFT } from '../types';
-import { ATTRIBUTE_NAMES, ATTRIBUTE_COLORS, ATTRIBUTE_RARITY } from '../config';
-import { formatSui, formatTimestamp, shortenAddress } from '../utils/sui';
+import { ATTRIBUTE_NAMES, ATTRIBUTE_COLORS } from '../config';
 
 interface NFTCardProps {
   nft: GBzNFT;
@@ -12,7 +11,6 @@ export function NFTCard({ nft, onClick }: NFTCardProps) {
   const [imageError, setImageError] = useState(false);
   const attributeName = ATTRIBUTE_NAMES[nft.attribute.attribute_type] || 'Unknown';
   const attributeColor = ATTRIBUTE_COLORS[nft.attribute.attribute_type] || 'bg-gray-500';
-  const attributeRarity = ATTRIBUTE_RARITY[nft.attribute.attribute_type] || 'Unknown';
 
   return (
     <div
