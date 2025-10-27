@@ -212,7 +212,7 @@ function NFTViewer() {
         {!currentAccount ? (
           // Not Connected
           <div className="text-center py-20">
-            <div className="text-6xl mb-4">👛</div>
+            <div className="text-6xl mb-4">🧬</div>
             <h2 className="text-2xl font-bold mb-4">Connect Your Wallet</h2>
             <p className="text-gray-400 mb-6">
               Connect your SUI wallet to view your GBz NFT collection
