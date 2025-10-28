@@ -1,18 +1,19 @@
 /**
  * GBz NFT Collection Viewer Configuration
  * Network: SUI Testnet
+ * Version: V2 - Deployed 2025-10-27
  */
 
 export const CONTRACT_INFO = {
   network: "testnet" as const,
-  packageId: "0x0d511d9609f8cbb14cfc935c9aee62466421ad76aefffe730f3d62f00c320367",
+  packageId: "0x4e91a01313fb9d17a85dd23024aba33f7108aa4b3d479bb854c14220ecb32168",
   moduleName: "gbz_dynamic",
 
   // Shared Objects
-  collectionState: "0xfd0a19f8f267671123b738332a3d8444163e2377846cfea6ea13627e2739d7f7",
-  rewardPool: "0x159c73b3f673a8f817530dbc2168c6e198c94897f860dfeeed421c002eecc759",
-  globalProvenanceTracker: "0x17b48714559c16ad75aff8253fe874ba0f0428e770049c8d97ec13ec3571b03f",
-  transferPolicy: "0x32f8b09839409e4d7843cbbbf010b9a332dbda4b414fa96551b325f71893c137",
+  collectionState: "0xec70ab528dcc49d202e0f22060299fb35012e0b113ef95f7b604b6fa9811b0b6",
+  rewardPool: "0xd4f63e264c92ae2d7affb771878bf21ec9ad104a39ee5297a4f70859e4205466",
+  globalProvenanceTracker: "0xfbe5c8e8aa5bc4890cbd51aec8d60432bf0c574c842a97e20c2d241c81a2e7a3",
+  transferPolicy: "0x7f573384bca88f6bffe5c8e32a32beb9965eb348c987ca94309eb7457e655c62",
 };
 
 export const NFT_TYPE = `${CONTRACT_INFO.packageId}::${CONTRACT_INFO.moduleName}::GBzNFT`;
@@ -40,12 +41,12 @@ export const ATTRIBUTE_RARITY: Record<number, string> = {
 };
 
 export const COLLECTION_INFO = {
-  maxSupply: 11_111,
-  imageBaseUrl: "https://pub-c907649788c642a19b79ddf4d14b069c.r2.dev/",
-  imageOffset: 2268,
+  maxSupply: 11_019,
+  imageBaseUrl: "https://79a2454c8a9985958b18f0ba16622b0f.r2.cloudflarestorage.com/ghetto-babyz-testnet/",
+  imageOffset: 0, // No offset - images are 1.png to 11019.png
 };
 
 // Calculate image URL from token ID
 export function getImageUrl(tokenId: number): string {
-  return `${COLLECTION_INFO.imageBaseUrl}${tokenId + COLLECTION_INFO.imageOffset}.png`;
+  return `${COLLECTION_INFO.imageBaseUrl}${tokenId + COLLECTION_INFO.imageOffset + 1}.png`; // +1 because token IDs start at 0
 }
