@@ -42,11 +42,6 @@ export const ATTRIBUTE_RARITY: Record<number, string> = {
 
 export const COLLECTION_INFO = {
   maxSupply: 11_019,
-  imageBaseUrl: "https://pub-65ffe756dc414f1c813b2513d0430fb0.r2.dev/",
-  imageOffset: 0, // No offset - images are 1.png to 11019.png
+  // Note: Image URLs are fetched directly from the blockchain NFT metadata (imageUrl field)
+  // The viewer does not calculate image URLs client-side
 };
-
-// Calculate image URL from token ID
-export function getImageUrl(tokenId: number): string {
-  return `${COLLECTION_INFO.imageBaseUrl}${tokenId + COLLECTION_INFO.imageOffset + 1}.png`; // +1 because token IDs start at 0
-}
