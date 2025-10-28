@@ -178,7 +178,7 @@ function NFTViewer() {
                   <div className="bg-red-950/30 backdrop-blur-sm border border-red-900/50 px-4 py-2 rounded-lg font-mono">
                     <span className="text-red-500 text-xs">SUPPLY</span>{' '}
                     <span className="font-bold text-white ml-1 text-base">{stats.totalMinted.toLocaleString()}</span>
-                    <span className="text-gray-600">/11,111</span>
+                    <span className="text-gray-600">/11,019</span>
                   </div>
                   {stats.totalBurned > 0 && (
                     <div className="bg-black/50 backdrop-blur-sm border border-red-700/50 px-4 py-2 rounded-lg font-mono">
