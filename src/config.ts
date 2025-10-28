@@ -42,7 +42,7 @@ export const ATTRIBUTE_RARITY: Record<number, string> = {
 
 export const COLLECTION_INFO = {
   maxSupply: 11_019,
-  imageBaseUrl: "https://79a2454c8a9985958b18f0ba16622b0f.r2.cloudflarestorage.com/ghetto-babyz-testnet/",
+  imageBaseUrl: "https://pub-65ffe756dc414f1c813b2513d0430fb0.r2.dev/",
   imageOffset: 0, // No offset - images are 1.png to 11019.png
 };
 
